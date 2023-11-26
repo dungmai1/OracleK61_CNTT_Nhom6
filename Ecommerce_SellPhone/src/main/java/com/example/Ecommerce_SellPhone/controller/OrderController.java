@@ -36,10 +36,9 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse(true, "order has been added"), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{token}")
-    public ResponseEntity<List<Order>> getAllOrder(@PathVariable("token") String token) {
-        authService.authenticate(token);
-        Customer customer = authService.getCustomer(token);
+    @GetMapping("/user")
+    public ResponseEntity<List<Order>> getAllOrder(@RequestHeader("Authorization") String jwt) {
+        Customer customer = customerService.findCustomerByJwt(jwt);
         List<Order> order = orderService.getAllOrder(customer);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }

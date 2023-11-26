@@ -17,6 +17,7 @@
             :key="wishlist.id"
             class="col-lg-3 col-md-4 col-sm-6 mix"
           >
+          <router-link :to="`/product_details/${wishlist.id}`">
             <div class="featured__item">
               <div
                 class="featured__item__pic set-bg"
@@ -29,12 +30,12 @@
               >
               <ul class="featured__item__pic__hover">
                     <li>
-                      <a href="#" @click="addCart(wishlist.id)">
+                      <a href="#" @click.stop="addCart(wishlist.id)">
                         <i class="fa fa-shopping-cart">
                         </i></a>
                     </li>
                     <li>
-                      <a href="#" @click="deleteWishlist(wishlist.id)">
+                      <a href="#" @click.stop="deleteWishlist(wishlist.id)">
                         <i class="fa fa-trash">
                         </i></a>
                     </li>
@@ -48,6 +49,7 @@
                 <h5>{{ formatPrice(wishlist.price) }}</h5>
               </div>
             </div>
+          </router-link>
           </div>
         </div>
       </div>
@@ -109,6 +111,7 @@ export default {
       CartService.addToCart(this.cart, token)
         .then((response) => {
           console.log(response.data);
+          alert("Add to Cart success");
         })
         .catch((error) => {
           console.error("Error adding to cart:", error, this.cart, token);

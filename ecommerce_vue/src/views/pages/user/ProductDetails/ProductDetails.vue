@@ -18,7 +18,9 @@
         <div class="col-lg-6 col-md-6">
           <div class="product__details__text">
             <h3>{{ product.product_name }}</h3>
-            <div class="product__details__price">{{ product.price }}</div>
+            <div class="product__details__price">
+              {{ formatPrice(product.price) }}
+            </div>
             <p>
               {{ product.product_describe }}
             </p>
@@ -31,17 +33,27 @@
                 </div>
               </div>
             </div>
-            <a href="#" class="primary-btn">ADD TO CARD</a>
-            <a href="#" class="heart-icon"
+            <a href="#" class="primary-btn" @click="addCart(product.id)">ADD TO CARD</a>
+            <!-- <a href="#" class="heart-icon"
               ><span class="icon_heart_alt"></span
-            ></a>
+            ></a> -->
             <ul>
-              <li><b>Availability</b> <span>In Stock</span></li>
               <li>
-                <b>Shipping</b>
-                <span>01 day shipping. <samp>Free pickup today</samp></span>
+                <b>Screen Size</b> <span>{{ product.screenSize }}</span>
               </li>
-              <li><b>Weight</b> <span>0.5 kg</span></li>
+              <li>
+                <b>OS</b> <span>{{ product.os }}</span>
+              </li>
+              <li>
+                <b>Back Camera</b> <span>{{ product.back_Camera }}</span>
+              </li>
+              <li>
+                <b>Front Camera</b> <span>{{ product.front_Camera }}</span>
+              </li>
+              <li>
+                <b>Memory Storage Capacity</b>
+                <span>{{ product.memory_Storage_Capacity }}</span>
+              </li>
               <li>
                 <b>Share on</b>
                 <div class="share">
@@ -93,32 +105,7 @@
                 <div class="product__details__tab__desc">
                   <h6>Products Infomation</h6>
                   <p>
-                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                    amet dui. Pellentesque in ipsum id orci porta dapibus. Proin
-                    eget tortor risus. Vivamus suscipit tortor eget felis
-                    porttitor volutpat. Vestibulum ac diam sit amet quam
-                    vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                    eget malesuada. Vivamus suscipit tortor eget felis porttitor
-                    volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-                    porttitor at sem. Praesent sapien massa, convallis a
-                    pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-                    amet quam vehicula elementum sed sit amet dui. Vestibulum
-                    ante ipsum primis in faucibus orci luctus et ultrices
-                    posuere cubilia Curae; Donec velit neque, auctor sit amet
-                    aliquam vel, ullamcorper sit amet ligula. Proin eget tortor
-                    risus.
-                  </p>
-                  <p>
-                    Praesent sapien massa, convallis a pellentesque nec, egestas
-                    non nisi. Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Mauris blandit aliquet elit, eget tincidunt nibh
-                    pulvinar a. Cras ultricies ligula sed magna dictum porta.
-                    Cras ultricies ligula sed magna dictum porta. Sed porttitor
-                    lectus nibh. Mauris blandit aliquet elit, eget tincidunt
-                    nibh pulvinar a. Vestibulum ac diam sit amet quam vehicula
-                    elementum sed sit amet dui. Sed porttitor lectus nibh.
-                    Vestibulum ac diam sit amet quam vehicula elementum sed sit
-                    amet dui. Proin eget tortor risus.
+                    {{ product.product_describe }}
                   </p>
                 </div>
               </div>
@@ -182,7 +169,7 @@
   <!-- Product Details Section End -->
 
   <!-- Related Product Section Begin -->
-  <section class="related-product">
+  <!-- <section class="related-product">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
@@ -228,7 +215,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <Footer />
 </template>
 
@@ -237,6 +224,8 @@ import Footer from "@/components/user/Footer";
 import Header from "@/components/user/Header";
 import Section from "@/components/user/Section";
 import ProductService from "@/services/admin/ProductService";
+import CartService from "@/services/CartService";
+
 export default {
   name: "ProductDetails",
   components: {
@@ -260,7 +249,11 @@ export default {
         category_ID: "",
       },
       ProductList: [],
-      quantity:1,
+      quantity: 1,
+      cart: {
+        productID: "",
+        quantity: "",
+      },
     };
   },
   methods: {
@@ -292,6 +285,22 @@ export default {
     },
     increaseQuantity() {
       this.quantity += 1;
+    },
+    formatPrice(number) {
+      return number.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    },
+    addCart(id) {
+      const token = localStorage.getItem("token");
+      this.cart.productID = id;
+      this.cart.quantity = this.quantity;
+      CartService.addToCart(this.cart, token)
+        .then((response) => {
+          console.log(response.data);
+          alert("Add to Cart success");
+        })
+        .catch((error) => {
+          console.error("Error adding to cart:", error, this.cart, token);
+        });
     },
   },
   created() {

@@ -187,9 +187,9 @@ export default {
     },
     createOrder() {
       this.Address =
-        this.ProvinceCode.name +
-        this.DistrictCode.name +
-        this.WardCode.name +
+        this.ProvinceCode.name +","+
+        this.DistrictCode.name + ","+
+        this.WardCode.name +","+
         this.address;
       const token = localStorage.getItem("token");
       CheckoutService.createOrder(
@@ -200,6 +200,8 @@ export default {
       )
         .then((response) => {
           console.log("Order Sucess" + response.data);
+          alert("Order Success");
+          this.$router.push("/dashboard");
         })
         .catch((error) => {
           console.error("Error createOrder:", error);

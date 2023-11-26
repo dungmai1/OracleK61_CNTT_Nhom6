@@ -17,6 +17,8 @@
             :key="product.id"
             class="col-lg-3 col-md-4 col-sm-6 mix"
           >
+          <router-link :to="`/product_details/${product.id}`">
+
             <div class="featured__item">
               <div
                 class="featured__item__pic set-bg"
@@ -48,6 +50,7 @@
                 <h5>{{ formatPrice(product.price) }}</h5>
               </div>
             </div>
+          </router-link>
           </div>
         </div>
       </div>
@@ -70,7 +73,7 @@ export default {
   components: {
     Footer,
     Section,
-    Header,
+    Header, 
   },
   data() {
     return {

@@ -16,7 +16,7 @@
           <div class="hero__search">
             <div class="hero__search__form">
               <form action="#">
-                <input type="text" placeholder="Search product name" v-model="name" />
+                <input type="text"   placeholder="Search product name" v-model="name" />
                 <router-link :to="`/search/${name}`" type="submit" class="site-btn">SEARCH</router-link>
               </form>
             </div>

@@ -24,6 +24,7 @@ import { jwtDecode } from "jwt-decode";
 import Wishlist from "../views/pages/user/Wishlist/Wishlist.vue";
 import Checkout from "../views/pages/user/Checkout/Checkout.vue";
 import Search from "../views/pages/user/Search/Search.vue";
+import OrderHistory from "../views/pages/user/OrderHistory/OrderHistory.vue";
 
 function hasToken() {
   return localStorage.token !== undefined && localStorage.token !== null;
@@ -144,6 +145,13 @@ const routes = [
     path: "/cart",
     name: "Cart",
     component: Cart,
+    beforeEnter: [checkRoleUser, checkTokenExpiration],
+  },
+  //OrderHistory
+  {
+    path: "/orderhistory",
+    name: "OrderHistory",
+    component: OrderHistory,
     beforeEnter: [checkRoleUser, checkTokenExpiration],
   },
   //Contact

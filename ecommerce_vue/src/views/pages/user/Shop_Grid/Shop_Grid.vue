@@ -9,6 +9,9 @@
             <div class="sidebar__item">
               <h4>Categories</h4>
               <ul>
+                <li>
+                  <a @click="getProduct">All</a>
+                </li>
                 <li v-for="categories in CategoryList" :key="categories.id">
                   <a @click="getProductByCategoryId(categories.id)">{{
                     categories.category_name
@@ -159,6 +162,7 @@ export default {
       CartService.addToCart(this.cart, token)
         .then((response) => {
           console.log(response.data);
+          alert("Add to Cart success");
         })
         .catch((error) => {
           console.error("Error adding to cart:", error, this.cart, token);
@@ -169,9 +173,11 @@ export default {
       WishlistService.addToWishlist(data, token)
         .then((response) => {
           console.log("Add Wishlist success" + response.data);
+          alert("Add to Favorites Product ");
         })
         .catch((error) => {
           console.error("Error add to wishlist:", error);
+          alert("Product already exists in favorite products");
         });
     },
     getCategory() {

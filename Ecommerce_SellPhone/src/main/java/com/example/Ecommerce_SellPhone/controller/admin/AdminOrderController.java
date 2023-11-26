@@ -28,4 +28,5 @@ public class AdminOrderController {
         List<Order_Details> orderDetails = orderDetailsService.getOrderDetail_OrderID(order_id);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }
+
 }

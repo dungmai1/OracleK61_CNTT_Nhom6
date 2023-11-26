@@ -74,7 +74,7 @@
     <!-- Hero Section End -->
 
     <!-- Categories Section Begin -->
-    <Section_Hero/>    
+    <Section_Hero />
     <!-- Categories Section End -->
 
     <!-- Featured Section Begin -->
@@ -109,41 +109,42 @@
               :key="featured.id"
               class="col-lg-3 col-md-4 col-sm-6 mix"
             >
-              <div class="featured__item">
-                <div
-                  class="featured__item__pic set-bg"
-                  :style="{
-                    'background-image':
-                      'url(' + featured.product.pictures + ')',
-                    'background-size': 'cover',
-                    width: '200px',
-                    height: '150px',
-                  }"
-                  :alt="featured.product.product_name"
-                >
-                  <ul class="featured__item__pic__hover">
-                    <li>
-                      <a href="#" @click.stop="addWishlist(featured.product)">
-                        <i class="fa fa-heart"></i></a>
-                    </li>
-                    <li>
-                      <a href="#" @click.stop="addCart(featured.product.id)">
-                        <i class="fa fa-shopping-cart">
-
-                        </i></a>
-                    </li>
-                  </ul>
+              <router-link :to="`/product_details/${featured.product.id}`">
+                <div class="featured__item">
+                  <div
+                    class="featured__item__pic set-bg"
+                    :style="{
+                      'background-image':
+                        'url(' + featured.product.pictures + ')',
+                      'background-size': 'cover',
+                      width: '200px',
+                      height: '150px',
+                    }"
+                    :alt="featured.product.product_name"
+                  >
+                    <ul class="featured__item__pic__hover">
+                      <li>
+                        <a href="#" @click.stop="addWishlist(featured.product)">
+                          <i class="fa fa-heart"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="#" @click.stop="addCart(featured.product.id)">
+                          <i class="fa fa-shopping-cart"> </i
+                        ></a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="featured__item__text">
+                    <h6>
+                      <a :href="featured.link">{{
+                        featured.product.product_name
+                      }}</a>
+                    </h6>
+                    <h5>{{ formatPrice(featured.product.price) }}</h5>
+                  </div>
                 </div>
-
-                <div class="featured__item__text">
-                  <h6>
-                    <a :href="featured.link">{{
-                      featured.product.product_name
-                    }}</a>
-                  </h6>
-                  <h5>{{ formatPrice(featured.product.price) }}</h5>
-                </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -421,7 +422,8 @@ export default {
       CategoryList: [],
       userRole: null,
       FeaturedList: [],
-      imageurl: "https://cdn-v2.didongviet.vn/files/page/2023/9/1/0/1696136879292_iphone_15_pro_max.png",
+      imageurl:
+        "https://cdn-v2.didongviet.vn/files/page/2023/9/1/0/1696136879292_iphone_15_pro_max.png",
       cart: {
         productID: "",
         quantity: 1,
@@ -469,6 +471,7 @@ export default {
       CartService.addToCart(this.cart, token)
         .then((response) => {
           console.log(response.data);
+          alert("Add to Cart success");
         })
         .catch((error) => {
           console.error("Error adding to cart:", error, this.cart, token);
@@ -479,6 +482,7 @@ export default {
       WishlistService.addToWishlist(data, token)
         .then((response) => {
           console.log("Add Wishlist success" + response.data);
+          alert("Add to Favorites Product");
         })
         .catch((error) => {
           console.error("Error add to wishlist:", error);
@@ -505,7 +509,9 @@ $(document).ready(function () {
   align-items: center;
   text-align: center;
 }
-
+.featured {
+  padding-top: 50px;
+}
 .featured__item__pic {
   width: 200px;
   height: 150px;

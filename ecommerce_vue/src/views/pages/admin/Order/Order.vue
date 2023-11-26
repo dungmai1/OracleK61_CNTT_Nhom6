@@ -39,6 +39,7 @@
                       >
                         View Details
                       </router-link>                      </td>
+
                     </tr>
                   </tbody>
                 </table>
